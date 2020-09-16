@@ -12,6 +12,7 @@
 import string
 from random import sample, choice
 import os
+from copy import copy
 
 
 alphabets = [itm for itm in sample(string.ascii_lowercase, 10)]
@@ -39,17 +40,15 @@ def read_file(filename, param):
     with open(filename, 'r') as r_file:
         search_count = True
         for row in r_file:
-            line = f'{row}'
+            line = (row + '.')[:-1]
             if (param['search'] and search_count and
                     line.find(param['search']) > -1):
                 print(line)
-                line.replace(param['search'], param['replace_all'])
-                print(line)
+                print(line.replace(param['search'], param['replace_all']))
                 search_count = False
             if param['search_all'] and line.find(param['search_all']) > -1:
                 print(line)
-                line.replace(param['search'], param['replace_all'])
-                print(line)
+                print(line.replace(param['search_all'], param['replace_all']))
             if row[0] == ' ' and row[-1] == ' ':
                 print(row)
 
