@@ -17,7 +17,11 @@ import random
 import os
 
 
-alphabets = [itm for itm in random.sample(string.ascii_lowercase, 10)]
+alphabets = list()
+for elem in range(10):
+    alphabets.append(
+        "".join([itm for itm in random.sample(string.ascii_lowercase, 10)])
+    )
 numbers = [itm for itm in random.sample(range(1, 11), 10)]
 
 

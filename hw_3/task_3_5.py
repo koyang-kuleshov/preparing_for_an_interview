@@ -10,17 +10,17 @@
 """
 
 import string
-from random import sample, choice
+from random import sample
 import os
-from copy import copy
+import re
 
 
-alphabets = [itm for itm in sample(string.ascii_lowercase, 10)]
-numbers = [itm for itm in sample(range(1, 11), 10)]
-param = {'search': '3',
-         'search_all': 'x',
-         'replace_all': 'E',
-         }
+alphabets = list()
+for elem in range(10):
+    alphabets.append(
+        "".join([itm for itm in sample(string.ascii_lowercase, 10)])
+    )
+numbers = [itm for itm in sample(range(10, 99), 10)]
 
 
 def save_file(filename):
@@ -28,29 +28,20 @@ def save_file(filename):
         print(f'{filename} уже существует')
     with open(filename, 'w', encoding='UTF-8') as f_name:
         for row in zip(alphabets, numbers):
-            if choice((True, False)):
-                f_name.write(f'example{row[1]}\n')
-            else:
-                f_name.write(f"{''.join(str(i) for i in row)}\n")
-
-    read_file(filename, param)
+            f_name.write(f"{''.join(str(i) for i in row)}\n")
 
 
-def read_file(filename, param):
+def read_file(filename):
     with open(filename, 'r') as r_file:
-        search_count = True
-        for row in r_file:
-            line = (row + '.')[:-1]
-            if (param['search'] and search_count and
-                    line.find(param['search']) > -1):
-                print(line)
-                print(line.replace(param['search'], param['replace_all']))
-                search_count = False
-            if param['search_all'] and line.find(param['search_all']) > -1:
-                print(line)
-                print(line.replace(param['search_all'], param['replace_all']))
-            if row[0] == ' ' and row[-1] == ' ':
-                print(row)
+        data = r_file.readlines()
+    spam = list()
+    with open(filename, 'w', encoding='UTF-8') as w_file:
+        for row in data:
+            line = re.split(r'\d', row)[0] * 2 + '\n'
+            print(line)
+            spam.append(line)
+        w_file.writelines(spam)
 
 
 save_file('test.txt')
+read_file('test.txt')
