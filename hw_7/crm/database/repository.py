@@ -1,8 +1,11 @@
 from sqlalchemy import create_engine
+# from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.ext.declarative import declarative_base
 
-PATH = 'db.sqlite3'
+from models import Base, Goods
+
+PATH = 'database/db.sqlite3'
 
 
 class Repository:
@@ -12,10 +15,10 @@ class Repository:
         )
         self.create_base()
         self.session = self.get_session()
+        # self.session.execute('PRAGMA foreign_keys=ON')
 
     def create_base(self):
-        base = declarative_base()
-        base.metadata.create_all(self.engine)
+        Base.metadata.create_all(self.engine)
 
     def get_session(self):
         session = sessionmaker(bind=self.engine)
@@ -25,3 +28,6 @@ class Repository:
 
 if __name__ == "__main__":
     DB = Repository(PATH)
+    DB.session.add(Goods('asd'))
+    DB.session.commit()
+    # print(DB.session.query(Goods).all())
